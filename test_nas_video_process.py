@@ -62,9 +62,13 @@ if __name__ == "__main__":
     #start processing video chunks
     for request_process in request_process_list:
         request_process.start()
+
+    for request_process in request_process_list:
         request_process.join()
 
-    #terminate processes
-    sr_process.terminate()
-    decode_process.terminate()
-    encode_process.terminate()
+    # terminate processes
+    # sr_process.terminate()
+    # decode_process.terminate()
+    # encode_process.terminate()
+
+    print('end of main process')

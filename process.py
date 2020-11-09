@@ -343,7 +343,7 @@ def encode(encode_queue, shared_tensor_list):
                             #'-s', '1920x1080', # size of one frame
                             '-vcodec', 'libx264',
                             #'crf', '0',
-                            '-preset', 'ultrafast',
+                            # '-preset', 'ultrafast',
                             '-movflags', 'empty_moov+omit_tfhd_offset+frag_keyframe+default_base_moof',
                             '-pix_fmt', 'yuv420p',
                             #'-an', # Tells FFMPEG not to expect any audio
@@ -360,7 +360,7 @@ def encode(encode_queue, shared_tensor_list):
                 img = shared_tensor_list[1080][idx].cpu().numpy()
 
                 if img is None:
-                    print(idx)
+                    print('img is None => ', idx)
 
                 pipe.stdin.write(img.tobytes())
                 pipe.stdin.flush()
@@ -401,6 +401,7 @@ def encode(encode_queue, shared_tensor_list):
 
 #building a request
 def request(decode_queue, resolution, index, fps=24.0, duration=4.0):
+    print(f'--[request {resolution}, {index}]---')
     res2quality = {240: 0, 360: 1, 480: 2, 720: 3, 1080: 4}
     video_dir = os.path.join(opt.data_dir, '{}p'.format(resolution))
 
@@ -418,6 +419,7 @@ def request(decode_queue, resolution, index, fps=24.0, duration=4.0):
         else:
             print('request: Invalid input')
             break
+    print(f'--[end {resolution}, {index}]---')
 
 def signal_handler(signal, frame):
     print('You pressed Ctrl+C!')
